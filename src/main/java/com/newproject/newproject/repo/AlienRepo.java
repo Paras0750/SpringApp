@@ -32,6 +32,29 @@ public class AlienRepo {
         System.out.println("Alien created: " + rows);
     }
 
+    public List<Alien> getOne(int id) {
+        String query = "select * from alien where id = " + id;
+
+        RowMapper<Alien> mapper = new RowMapper<Alien>() {
+            @SuppressWarnings("null")
+            @Override
+            public Alien mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Alien alien = new Alien();
+                alien.setId(rs.getInt(1));
+                alien.setName(rs.getString(2));
+                alien.setTech(rs.getString(3));
+
+                return alien;
+            }
+        };
+
+        List<Alien> aliens = jdbcTemplate.query(query, mapper);
+
+        return aliens;
+
+
+    }
+
     public List<Alien> findAll() {
         String query = "select * from alien";
 
